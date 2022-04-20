@@ -10,12 +10,6 @@
           aria-label="Menu"
           @click="toggleLeftDrawer"
         />
-
-        <q-toolbar-title>
-          Quasar App
-        </q-toolbar-title>
-
-        <div>Quasar v{{ $q.version }}</div>
       </q-toolbar>
     </q-header>
 
@@ -25,74 +19,27 @@
       bordered
     >
       <q-list>
-        <q-item-label
-          header
-        >
-          Essential Links
-        </q-item-label>
-
-        <EssentialLink
-          v-for="link in essentialLinks"
-          :key="link.title"
-          v-bind="link"
-        />
+        <q-item-label header />
+        <EssentialLink :essential-links="essentialLinks" />
       </q-list>
     </q-drawer>
 
     <q-page-container>
       <router-view />
     </q-page-container>
+
+    <q-footer elevated>
+      <q-toolbar>
+        <q-toolbar-title>Footer</q-toolbar-title>
+      </q-toolbar>
+    </q-footer>
   </q-layout>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import EssentialLink from 'components/EssentialLink.vue';
-
-const linksList = [
-  {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
-  },
-  {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
-  },
-  {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
-  }
-];
+import { useI18n } from 'vue-i18n'
+import EssentialLink from '../components/EssentialLink.vue';
 
 export default defineComponent({
   name: 'MainLayout',
@@ -102,9 +49,60 @@ export default defineComponent({
   },
 
   setup () {
+    const { t } = useI18n()
     const leftDrawerOpen = ref(false)
-
+    const linksList = [
+      // TODO: include the url's from /router/routes.ts
+      {
+        id: 'home',
+        title: t('user.navigation_menu.home'),
+        link: window.location.origin
+      },
+      {
+        id: 'services',
+        title: t('user.navigation_menu.services'),
+        link: window.location.origin + '#/services'
+      },
+      {
+        id: 'portfolio',
+        title: t('user.navigation_menu.portfolio'),
+        link: window.location.origin + '#/portfolio',
+        child_urls: [
+          {
+            id: 'portfolio_photo',
+            title: t('user.navigation_menu.portfolio_photo'),
+            link: window.location.origin + '#/portfolio/photo'
+          },
+          {
+            id: 'portfolio_video',
+            title: t('user.navigation_menu.portfolio_video'),
+            link: window.location.origin + '#/portfolio/video'
+          }
+        ]
+      },
+      {
+        id: 'deals',
+        title: t('user.navigation_menu.deals'),
+        link: window.location.origin + '#/deals'
+      },
+      {
+        id: 'about_me',
+        title: t('user.navigation_menu.about_me'),
+        link: window.location.origin + '#/about-me'
+      },
+      {
+        id: 'contact_me',
+        title: t('user.navigation_menu.contact_me'),
+        link: window.location.origin + '#/contact-me'
+      },
+      {
+        id: 'terms_and_conditions',
+        title: t('user.navigation_menu.terms_and_conditions'),
+        link: window.location.origin + '#/terms-and-conditions'
+      }
+    ]
     return {
+      t,
       essentialLinks: linksList,
       leftDrawerOpen,
       toggleLeftDrawer () {

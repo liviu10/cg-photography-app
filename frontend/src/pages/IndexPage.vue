@@ -1,49 +1,71 @@
 <template>
-  <q-page class="row items-center justify-evenly">
-    <example-component
-      title="Example component"
-      active
-      :todos="todos"
-      :meta="meta"
-    ></example-component>
+  <q-page class="">
+    <div class="">
+      <q-carousel
+        arrows
+        animated
+        v-model="slide"
+        class="window-height"
+      >
+        <q-carousel-slide name="first" img-src="https://cdn.quasar.dev/img/mountains.jpg">
+          <div class="absolute-bottom-right custom-caption">
+            <div class="text-h2">First stop</div>
+            <div class="text-subtitle1">
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+              Ipsa quo dolores deserunt repellendus doloribus eligendi sint consequatur,
+              accusamus voluptatibus maiores perferendis ipsam et esse modi.
+            </div>
+          </div>
+        </q-carousel-slide>
+        <q-carousel-slide name="second" img-src="https://cdn.quasar.dev/img/parallax1.jpg">
+          <div class="absolute-bottom-right custom-caption">
+            <div class="text-h2">Second stop</div>
+            <div class="text-subtitle1">
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+              Ipsa quo dolores deserunt repellendus doloribus eligendi sint consequatur,
+              accusamus voluptatibus maiores perferendis ipsam et esse modi.
+            </div>
+          </div>
+        </q-carousel-slide>
+        <q-carousel-slide name="third" img-src="https://cdn.quasar.dev/img/parallax2.jpg">
+          <div class="absolute-bottom-right custom-caption">
+            <div class="text-h2">Third stop</div>
+            <div class="text-subtitle1">
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+              Ipsa quo dolores deserunt repellendus doloribus eligendi sint consequatur,
+              accusamus voluptatibus maiores perferendis ipsam et esse modi.
+            </div>
+          </div>
+        </q-carousel-slide>
+      </q-carousel>
+    </div>
   </q-page>
 </template>
 
 <script lang="ts">
-import { Todo, Meta } from 'components/models';
-import ExampleComponent from 'components/ExampleComponent.vue';
-import { defineComponent, ref } from 'vue';
+import { useI18n } from 'vue-i18n'
+import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
-  name: 'IndexPage',
-  components: { ExampleComponent },
-  setup() {
-    const todos = ref<Todo[]>([
-      {
-        id: 1,
-        content: 'ct1'
-      },
-      {
-        id: 2,
-        content: 'ct2'
-      },
-      {
-        id: 3,
-        content: 'ct3'
-      },
-      {
-        id: 4,
-        content: 'ct4'
-      },
-      {
-        id: 5,
-        content: 'ct5'
-      }
-    ]);
-    const meta = ref<Meta>({
-      totalCount: 1200
-    });
-    return { todos, meta };
+  name: 'HomePage',
+  setup () {
+    const { t } = useI18n()
+    const slide = ref('first')
+    return {
+      t,
+      slide
+    }
   }
 });
 </script>
+<style lang="scss">
+  .custom-caption {
+    text-align: center;
+    padding: 12px;
+    color: white;
+    background-color: rgba(0, 0, 0, .3);
+    bottom: 20%;
+    right: 5%;
+    max-width: 40%;
+  }
+</style>
